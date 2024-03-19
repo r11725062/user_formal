@@ -20,7 +20,7 @@ const createChatLi = (message, className) => {
 }
 
 const generateResponse = (chatElement) => {
-    const netlifyFunctionURL = "/.netlify/functions/api.js"; // Netlify 函数的路径
+    const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函数的路径
     const messageElement = chatElement.querySelector("p");
 
     const requestOptions = {
