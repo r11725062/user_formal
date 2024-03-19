@@ -1,7 +1,6 @@
 // functions/api.js
-import fetch from 'node-fetch';
-
 exports.handler = async (event) => {
+  const fetch = (await import('node-fetch')).default;
   const { userMessage } = JSON.parse(event.body);
   const API_KEY = process.env.MY_API_KEY; // 在 Netlify 环境变量中设置的 API Key
 
