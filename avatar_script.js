@@ -27,7 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="${avatarImage.src}" alt="用戶頭像" style="width: 250px; height: 250px; border-radius: 50%;">
                 <h2>${nameInput.value}</h2>
                 <p>您好，我是您的薪資談判指導員${nameInput.value}，在接下來的實驗中，我將透過對話指導您關於薪資談判的技巧和細節。<br><br>
-                實驗會計時三分鐘，請您在這期間儘可能詢問您想知道的關於薪資談判的任何事，若您無法自行想出問題，可以點選左上角的標示查看問題庫，當我回應您時，請您認真仔細的觀看我提供的內容，並且給予我回應。<br><br>
+                實驗會計時三分鐘，請您在這期間儘可能詢問您想知道關於薪資談判的任何事。<br>
+                <b>若您無法自行想出問題，可以點選左上角 <span class="material-symbols-outlined">info</span> 標示查看問題庫，並將問題複製到對話框中。<br>
+                若欲關閉問題庫，再次點擊 <span class="material-symbols-outlined">info</span> 標示即可。</b><br><br>
+                當我回應您時，請您認真仔細的觀看我提供的內容，並且給予我回應。<br>
                 在您準備好後，請按下「實驗開始」的按鈕後，即可開始。</p>
             `;
             submitContent.classList.remove('hidden');
