@@ -49,4 +49,3 @@ button:hover {
     left: auto; /* 覆寫left屬性 */
     transform: translateX(0%); /* 不需要水平偏移 */
 }
-
