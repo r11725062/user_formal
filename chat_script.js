@@ -103,9 +103,9 @@ function submitChatHistoryToGoogleForm() {
     let formData = new FormData();
     formData.append("entry.938012830", 'user');
     formData.append("entry.25562195", "formal");
-    formData.append("entry.22358687": userName);
-    formData.append("entry.1553700084": avatarSrc);
-    formData.append("entry.801005873": chatHistoryString);
+    formData.append("entry.22358687", userName);
+    formData.append("entry.1553700084", avatarSrc);
+    formData.append("entry.801005873", chatHistoryString);
      // 使用fetch替代$.ajax提交表单
     fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse", {
         method: "POST",
