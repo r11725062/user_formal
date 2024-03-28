@@ -96,8 +96,10 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 function submitChatHistoryToGoogleForm() {
     // 将聊天历史转换为一个字符串
     let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
-    var avatarSrc = localStorage.getItem("avatarSrc");
-    var userName = localStorage.getItem("userName");
+    // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
+    const avatarSrc = localStorage.getItem("avatarSrc") || "default.png";
+    const userName = localStorage.getItem("userName") || "default_name";
+
     $.ajax({
         // url為Google Form按下submit的aciotn
         url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse",
