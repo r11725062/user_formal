@@ -8,6 +8,11 @@ let userMessage = null; // Variable to store user's message
 const API_KEY = ""; // Paste your API key here
 const inputInitHeight = chatInput.scrollHeight;
 
+let chatHistory = []; 
+function addToChatHistory(sender, message) {
+    chatHistory.push({sender: sender, message: message});
+}
+
 const createChatLi = (message, className) => {
     // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
@@ -34,6 +39,7 @@ const generateResponse = (chatElement) => {
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
         // 假设返回的数据包含在 'message' 字段
         messageElement.textContent = data.message;
+        addToChatHistory("bot", messageElement.textContent); 
     }).catch(() => {
         messageElement.classList.add("error");
         messageElement.textContent = "哎呀！出錯了。請再試一次。";
@@ -46,6 +52,7 @@ const handleChat = () => {
 
     // Clear the input textarea and set its height to default
     chatInput.value = "";
+    addToChatHistory("user", userMessage); 
     chatInput.style.height = `${inputInitHeight}px`;
 
     // Append the user's message to the chatbox
@@ -54,7 +61,8 @@ const handleChat = () => {
     
     setTimeout(() => {
         // Display "Thinking..." message while waiting for the response
-        const incomingChatLi = createChatLi("正在輸入訊息...", "incoming");
+        var userName = localStorage.getItem("userName");
+        const incomingChatLi = createChatLi(userName+"正在輸入訊息...", "incoming");
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi);
@@ -85,6 +93,29 @@ sendChatBtn.addEventListener("click", handleChat);
 closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
 //chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
 
+function submitChatHistoryToGoogleForm() {
+    // 将聊天历史转换为一个字符串
+    let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
+    var avatarSrc = localStorage.getItem("avatarSrc");
+    var userName = localStorage.getItem("userName");
+    $.ajax({
+        // url為Google Form按下submit的aciotn
+        url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse",
+        crossDomain: true,//解決跨網域CORS的問題
+        data: {// entry.xxxxx 這些需要填寫您表單裡面的值，與其相互對應
+            "entry.938012830": 'user',
+            "entry.25562195": 'formal',
+            "entry.22358687": userName,
+            "entry.1553700084": avatarSrc,
+            "entry.801005873": chatHistoryString
+        },
+        type: "POST", //因為是要進行insert的動作，故事用POST
+        dataType: "JSONP",
+        complete: function () {
+        }
+    });
+}
+
 function startTimer(duration, display) {
     let timer = duration, minutes, seconds;
     const interval = setInterval(function () {
@@ -98,13 +129,14 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
             clearInterval(interval);
+            submitChatHistoryToGoogleForm()
             window.location.href = 'endpage.html'; // 替換為實際的跳轉URL
         }
     }, 1000);
 }
 
 window.onload = function () {
-    const duration = 180, // 這裡設置倒數計時的總秒數
+    const duration = 300, // 這裡設置倒數計時的總秒數
         display = document.querySelector('#timer');
     startTimer(duration, display);
     
