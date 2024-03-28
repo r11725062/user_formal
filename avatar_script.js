@@ -41,6 +41,21 @@ document.addEventListener('DOMContentLoaded', function () {
             // 存儲選擇的頭像和姓名到LocalStorage
             localStorage.setItem("avatarSrc", selectedAvatarSrc);
             localStorage.setItem("userName", userName);
+            $.ajax({
+                // url為Google Form按下submit的aciotn
+                url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse",
+                crossDomain: true,//解決跨網域CORS的問題
+                data: {// entry.xxxxx 這些需要填寫您表單裡面的值，與其相互對應
+                    "entry.938012830": 'user',
+                    "entry.25562195": 'formal',
+                    "entry.22358687": userName,
+                },
+                type: "POST", //因為是要進行insert的動作，故事用POST
+                dataType: "JSONP",
+                complete: function () {
+                    
+                }
+            });
             
             // 更新按鈕文字並添加跳轉功能
             submitBtn.textContent = '實驗開始';
