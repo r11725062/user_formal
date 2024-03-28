@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             var submitContent = document.querySelector('.submit-content');
             submitContent.innerHTML = `
-                <img src="${avatarImage.src}" alt="用戶頭像" style="width: 250px; height: 250px; border-radius: 50%;">
+                <img src="${avatarImage.src}" alt="用戶頭像" style="width: 310px; height: 310px; border-radius: 50%;">
                 <h2>${nameInput.value}</h2>
                 <p>您好，我是您的薪資談判指導員${nameInput.value}，在接下來的實驗中，我將透過對話指導您關於薪資談判的技巧和細節。<br><br>
                 實驗會計時三分鐘，請您在這期間儘可能詢問您想知道關於薪資談判的任何事。<br>
