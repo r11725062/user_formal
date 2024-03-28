@@ -107,7 +107,6 @@ function submitChatHistoryToGoogleForm() {
             "entry.25562195": 'formal',
             "entry.22358687": userName,
             "entry.1553700084": avatarSrc,
-            "entry.801005873": chatHistoryString
         },
         type: "POST", //因為是要進行insert的動作，故事用POST
         dataType: "JSONP",
@@ -136,7 +135,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    const duration = 300, // 這裡設置倒數計時的總秒數
+    const duration = 30, // 這裡設置倒數計時的總秒數
         display = document.querySelector('#timer');
     startTimer(duration, display);
     
