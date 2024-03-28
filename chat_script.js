@@ -94,6 +94,7 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 //chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
 
 function submitChatHistoryToGoogleForm() {
+    e.preventDefault();
     // 将聊天历史转换为一个字符串
     let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
     // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
