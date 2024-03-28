@@ -138,7 +138,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    const duration = 30, // 這裡設置倒數計時的總秒數
+    const duration = 300, // 這裡設置倒數計時的總秒數
         display = document.querySelector('#timer');
     startTimer(duration, display);
     
