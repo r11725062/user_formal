@@ -94,25 +94,25 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 //chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
 
 function submitChatHistoryToGoogleForm() {
-    e.preventDefault();
     // 将聊天历史转换为一个字符串
     let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
     // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
     const avatarSrc = localStorage.getItem("avatarSrc") || "default.png";
     const userName = localStorage.getItem("userName") || "default_name";
+    // 构造表单数据
+    let formData = new FormData();
+    formData.append("entry.938012830", 'user');
+    formData.append("entry.25562195", "formal");
 
-    $.ajax({
-        // url為Google Form按下submit的aciotn
-        url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse",
-        crossDomain: true,//解決跨網域CORS的問題
-        data: {// entry.xxxxx 這些需要填寫您表單裡面的值，與其相互對應
-            "entry.938012830": 'user',
-            "entry.25562195": 'formal',
-        },
-        type: "POST", //因為是要進行insert的動作，故事用POST
-        dataType: "JSONP",
-        complete: function () {
-        }
+     // 使用fetch替代$.ajax提交表单
+    fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse", {
+        method: "POST",
+        mode: "no-cors", // 注意：这将导致无法直接读取响应，但可以允许请求发送
+        body: new URLSearchParams(formData)
+    }).then(response => {
+        console.log("Form submitted");
+    }).catch(error => {
+        console.error("Submission failed", error);
     });
 }
 
