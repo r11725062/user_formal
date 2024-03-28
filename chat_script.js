@@ -107,9 +107,6 @@ function submitChatHistoryToGoogleForm() {
         data: {// entry.xxxxx 這些需要填寫您表單裡面的值，與其相互對應
             "entry.938012830": 'user',
             "entry.25562195": 'formal',
-            "entry.22358687": userName,
-            "entry.1553700084": avatarSrc,
-            "entry.801005873": chatHistoryString
         },
         type: "POST", //因為是要進行insert的動作，故事用POST
         dataType: "JSONP",
