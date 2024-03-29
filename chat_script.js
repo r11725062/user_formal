@@ -29,8 +29,8 @@ const generateResponse = (chatElement) => {
     const messageElement = chatElement.querySelector("p");
     
     // 在发送请求之前，确保 chatHistory 是数组
-    if (!Array.isArray(chatHistory)) {
-        chatHistory = []; // 初始化为空数组如果不是数组
+    if (!Array.isArray(chat_History)) {
+        chat_History = []; // 初始化为空数组如果不是数组
     }
     
     // 然后将 chatHistory 添加到请求体中
@@ -39,7 +39,7 @@ const generateResponse = (chatElement) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userMessage: userMessage, chatHistory: chatHistory })
+        body: JSON.stringify({ userMessage: userMessage, chat_History: chat_History })
     };
 
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
