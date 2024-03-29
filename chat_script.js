@@ -13,8 +13,6 @@ function addToChatHistory(sender, message) {
     chatHistory.push({sender: sender, message: message});
 }
 
-let conversationHistory = [];
-
 const createChatLi = (message, className) => {
     // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
@@ -30,8 +28,8 @@ const generateResponse = (chatElement) => {
     const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函数的路径
     const messageElement = chatElement.querySelector("p");
     
-    if (!Array.isArray(conversationHistory)) {
-        conversationHistory = []; // 初始化为空数组如果不是数组
+    if (!Array.isArray(chatHistory)) {
+        chatHistory = []; // 初始化为空数组如果不是数组
     }
     
     // 然后将 chatHistory 添加到请求体中
@@ -40,15 +38,13 @@ const generateResponse = (chatElement) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userMessage: userMessage, conversationHistory: conversationHistory })
+        body: JSON.stringify({ userMessage: userMessage, chatHistory: chatHistory })
     };
 
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
         // 假设返回的数据包含在 'message' 字段
         messageElement.textContent = data.message;
         addToChatHistory("bot", messageElement.textContent); 
-        conversationHistory = data.updatedChatHistory;
-        console.log(conversationHistory);
     }).catch(() => {
         messageElement.classList.add("error");
         messageElement.textContent = "哎呀！出錯了。請再試一次。";
