@@ -56,7 +56,6 @@ const generateResponse = (chatElement) => {
 }
 
 const handleChat = () => {
-    console.log(conversationHistory);
     userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
     if(!userMessage) return;
 
@@ -64,9 +63,6 @@ const handleChat = () => {
     chatInput.value = "";
     addToChatHistory("user", userMessage); 
     chatInput.style.height = `${inputInitHeight}px`;
-
-    conversationHistory.push({sender: "user", message: userMessage});
-    console.log(conversationHistory);
 
     // Append the user's message to the chatbox
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
