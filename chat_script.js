@@ -27,18 +27,13 @@ const createChatLi = (message, className) => {
 const generateResponse = (chatElement) => {
     const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函数的路径
     const messageElement = chatElement.querySelector("p");
-    
-    if (!Array.isArray(chatHistory)) {
-        chatHistory = []; // 初始化为空数组如果不是数组
-    }
-    
-    // 然后将 chatHistory 添加到请求体中
+
     const requestOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userMessage: userMessage, chatHistory: chatHistory })
+        body: JSON.stringify({ userMessage: userMessage })
     };
 
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
@@ -143,7 +138,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    const duration = 30, // 這裡設置倒數計時的總秒數
+    const duration = 300, // 這裡設置倒數計時的總秒數
         display = document.querySelector('#timer');
     startTimer(duration, display);
     
@@ -166,4 +161,3 @@ document.querySelector('.material-symbols-outlined').addEventListener('click', f
       popupBox.style.display = 'none';
     }
   });
-  
