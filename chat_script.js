@@ -48,6 +48,7 @@ const generateResponse = (chatElement) => {
         messageElement.textContent = data.message;
         addToChatHistory("bot", messageElement.textContent); 
         conversationHistory = data.updatedChatHistory;
+        console.log(conversationHistory);
     }).catch(() => {
         messageElement.classList.add("error");
         messageElement.textContent = "哎呀！出錯了。請再試一次。";
@@ -103,7 +104,7 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 
 function submitChatHistoryToGoogleForm() {
     // 将聊天历史转换为一个字符串
-    let chatHistoryString = conversationHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
+    let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
     // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
     const avatarSrc = localStorage.getItem("avatarSrc") || "default.png";
     const userName = localStorage.getItem("userName") || "default_name";
