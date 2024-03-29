@@ -27,13 +27,19 @@ const createChatLi = (message, className) => {
 const generateResponse = (chatElement) => {
     const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函数的路径
     const messageElement = chatElement.querySelector("p");
-
+    
+    // 在发送请求之前，确保 chatHistory 是数组
+    if (!Array.isArray(chatHistory)) {
+        chatHistory = []; // 初始化为空数组如果不是数组
+    }
+    
+    // 然后将 chatHistory 添加到请求体中
     const requestOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userMessage: userMessage })
+        body: JSON.stringify({ userMessage: userMessage, chatHistory: chatHistory })
     };
 
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
