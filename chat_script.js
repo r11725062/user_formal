@@ -47,6 +47,7 @@ const generateResponse = (chatElement) => {
         // 假设返回的数据包含在 'message' 字段
         messageElement.textContent = data.message;
         addToChatHistory("bot", messageElement.textContent); 
+        conversationHistory = data.updatedChatHistory;
     }).catch(() => {
         messageElement.classList.add("error");
         messageElement.textContent = "哎呀！出錯了。請再試一次。";
