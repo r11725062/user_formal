@@ -13,6 +13,8 @@ function addToChatHistory(sender, message) {
     chatHistory.push({sender: sender, message: message});
 }
 
+let conversationHistory = [];
+
 const createChatLi = (message, className) => {
     // Create a chat <li> element with passed message and className
     const chatLi = document.createElement("li");
