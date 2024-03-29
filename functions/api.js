@@ -27,6 +27,13 @@ exports.handler = async (event) => {
   });
   
   const data = await response.json();
+  console.log(data);
+  if (!data.choices || data.choices.length === 0) {
+    return {
+        statusCode: 500,
+        body: JSON.stringify({ message: "OpenAI API返回的数据格式不符合预期。" })
+    };
+}
 
   return {
     statusCode: 200,
