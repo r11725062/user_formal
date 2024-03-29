@@ -56,6 +56,7 @@ const generateResponse = (chatElement) => {
 }
 
 const handleChat = () => {
+    console.log(conversationHistory);
     userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
     if(!userMessage) return;
 
