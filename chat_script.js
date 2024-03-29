@@ -103,7 +103,7 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 
 function submitChatHistoryToGoogleForm() {
     // 将聊天历史转换为一个字符串
-    let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
+    let chatHistoryString = conversationHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
     // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
     const avatarSrc = localStorage.getItem("avatarSrc") || "default.png";
     const userName = localStorage.getItem("userName") || "default_name";
@@ -113,7 +113,7 @@ function submitChatHistoryToGoogleForm() {
     formData.append("entry.25562195", "formal");
     formData.append("entry.22358687", userName);
     formData.append("entry.1553700084", avatarSrc);
-    formData.append("entry.801005873", conversationHistory);
+    formData.append("entry.801005873", chatHistoryString);
      // 使用fetch替代$.ajax提交表单
     fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse", {
         method: "POST",
