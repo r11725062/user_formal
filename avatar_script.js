@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>您好，我是您的薪資談判指導員${nameInput.value}，在接下來的實驗中，我將透過對話指導您關於薪資談判的技巧和細節。<br><br>
                 實驗會計時五分鐘，請您在這期間儘可能詢問您想知道關於薪資談判的任何事。<br>
                 <b>若您無法自行想出問題，可以點選左上角 <span class="material-symbols-outlined">info</span> 標示查看問題庫，並將問題複製到對話框中。</b><br><br>
-                <span style="background-color: yellow;"><b>在實驗結束後，將會進行相關測驗，因此請您務必認真觀看我提供的內容，並且認真回應我</b></span><br>
+                <span style="background-color: yellow;"><b>在實驗結束後，將會進行相關測驗，因此請您務必仔細觀看我提供的內容，並且認真回應我。</b></span><br>
                 在您準備好後，請按下「實驗開始」的按鈕後，即可開始。</p>
             `;
             submitContent.classList.remove('hidden');
