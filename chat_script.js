@@ -4,8 +4,8 @@ const chatbox = document.querySelector(".chatbox");
 const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span");
 
-let userMessage = null; // Variable to store user's message
-const API_KEY = ""; // Paste your API key here
+let userMessage = null; // 儲存使用者訊息的變數
+const API_KEY = ""; // 在此貼上你的 API 金鑰
 const inputInitHeight = chatInput.scrollHeight;
 
 let chatHistory = []; 
@@ -14,18 +14,18 @@ function addToChatHistory(sender, message) {
 }
 
 const createChatLi = (message, className) => {
-    // Create a chat <li> element with passed message and className
+    // 建立一個帶有訊息和類別名稱的 <li> 聊天元素
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", `${className}`);
     const avatarSrc = localStorage.getItem("avatarSrc") || "ava_images/ava_default.png";
     let chatContent = className === "outgoing" ? `<p></p>` : `<img class="ava_image" src="${avatarSrc}"><p></p>`;
     chatLi.innerHTML = chatContent;
     chatLi.querySelector("p").textContent = message;
-    return chatLi; // return chat <li> element
+    return chatLi; // 回傳 <li> 聊天元素
 }
 
 const generateResponse = (chatElement) => {
-    const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函数的路径
+    const netlifyFunctionURL = "/.netlify/functions/api"; // Netlify 函數的路徑
     const messageElement = chatElement.querySelector("p");
 
     const requestOptions = {
@@ -35,12 +35,12 @@ const generateResponse = (chatElement) => {
         },
          body: JSON.stringify({ 
             userMessage: userMessage, 
-            chatHistory: chatHistory // 将当前对话历史发送给服务器
+            chatHistory: chatHistory // 將目前對話歷史傳送給伺服器
         })
     };
 
     fetch(netlifyFunctionURL, requestOptions).then(res => res.json()).then(data => {
-        // 假设返回的数据包含在 'message' 字段
+        // 假設回傳的資料包含在 'message' 欄位
         messageElement.textContent = data.message;
         addToChatHistory("bot", messageElement.textContent); 
     }).catch(() => {
@@ -50,20 +50,20 @@ const generateResponse = (chatElement) => {
 }
 
 const handleChat = () => {
-    userMessage = chatInput.value.trim(); // Get user entered message and remove extra whitespace
+    userMessage = chatInput.value.trim(); // 取得使用者輸入並移除多餘空白
     if(!userMessage) return;
 
-    // Clear the input textarea and set its height to default
+    // 清空輸入框並重設高度
     chatInput.value = "";
     addToChatHistory("user", userMessage); 
     chatInput.style.height = `${inputInitHeight}px`;
 
-    // Append the user's message to the chatbox
+    // 將使用者訊息加到聊天視窗中
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
     chatbox.scrollTo(0, chatbox.scrollHeight);
     
     setTimeout(() => {
-        // Display "Thinking..." message while waiting for the response
+        // 顯示「正在輸入...」訊息，等待回應
         var userName = localStorage.getItem("userName");
         const incomingChatLi = createChatLi(userName+"正在輸入訊息...", "incoming");
         chatbox.appendChild(incomingChatLi);
@@ -73,38 +73,33 @@ const handleChat = () => {
 }
 
 chatInput.addEventListener("input", () => {
-    // Adjust the height of the input textarea based on its content
+    // 根據內容調整輸入框的高度
     chatInput.style.height = `${inputInitHeight}px`;
     chatInput.style.height = `${chatInput.scrollHeight}px`;
 });
 
-let enterPressed = false; // 用于追踪用户是否按下了 Enter 键
+let enterPressed = false; // 用來追蹤使用者是否按下 Enter 鍵
 
 chatInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
-        // 检查输入框中是否有候选字面板打开
+        // 檢查輸入框中是否有候選字面板開啟
         const isCandidatePanelOpen = document.querySelector(".CompositionArea-caretMenu") !== null;
         if (!isCandidatePanelOpen) {
-            // 如果候选字面板未打开，则执行发送消息的操作
-            e.preventDefault(); // 阻止默认的 Enter 行为
+            e.preventDefault(); // 阻止預設 Enter 行為
             if (!enterPressed) {
-                // 如果标志位为 false，则说明这是第一次按下 Enter 键
-                enterPressed = true; // 设置标志位为 true
-                // 在这里可以执行消除输入框底线的操作
+                enterPressed = true; // 第一次按 Enter
             } else {
-                // 如果标志位为 true，则说明这是第二次按下 Enter 键
-                handleChat(); // 发送消息
-                enterPressed = false; // 重置标志位为 false，以便下一次按键事件
+                handleChat(); // 第二次按 Enter 送出訊息
+                enterPressed = false; // 重置旗標
             }
         }
     } else {
-        // 如果用户按下的不是 Enter 键，则将标志位重置为 false
         enterPressed = false;
     }
 });
 
 document.addEventListener("DOMContentLoaded", () => { 
-    // if the webpage opened, the chatroom show
+    // 頁面載入時開啟聊天視窗
     document.body.classList.add("show-chatbot");
 });
 
@@ -113,27 +108,26 @@ closeBtn.addEventListener("click", () => document.body.classList.remove("show-ch
 //chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
 
 function submitChatHistoryToGoogleForm() {
-    // 将聊天历史转换为一个字符串
+    // 將聊天紀錄轉為字串
     let chatHistoryString = chatHistory.map(item => `${item.sender}: ${item.message}`).join('\n');
-    // 伪代码示例，展示如何在 chat.html 中处理 localStorage 数据
     const avatarSrc = localStorage.getItem("avatarSrc") || "default.png";
     const userName = localStorage.getItem("userName") || "default_name";
-    // 构造表单数据
+    // 構造表單資料
     let formData = new FormData();
     formData.append("entry.938012830", 'user');
     formData.append("entry.25562195", "formal");
     formData.append("entry.22358687", userName);
     formData.append("entry.1553700084", avatarSrc);
     formData.append("entry.801005873", chatHistoryString);
-     // 使用fetch替代$.ajax提交表单
+     // 使用 fetch 提交表單
     fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSedu6Xgk9J57Z7p1NmCSabbymfZ5XfTVDj1Qobu6p5IFJv0mw/formResponse", {
         method: "POST",
-        mode: "no-cors", // 注意：这将导致无法直接读取响应，但可以允许请求发送
+        mode: "no-cors", // 注意：這將導致無法讀取回應，但允許發送請求
         body: new URLSearchParams(formData)
     }).then(response => {
-        console.log("Form submitted");
+        console.log("表單已提交");
     }).catch(error => {
-        console.error("Submission failed", error);
+        console.error("提交失敗", error);
     });
 }
 
@@ -146,12 +140,12 @@ function startTimer(duration, display) {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = "剩餘時間：" + minutes + "：" + seconds; // 在這裡添加“剩餘時間”
+        display.textContent = "剩餘時間：" + minutes + "：" + seconds;
 
         if (--timer < 0) {
             clearInterval(interval);
             submitChatHistoryToGoogleForm()
-            window.location.href = 'https://tassel.syd1.qualtrics.com/jfe/form/SV_9ZwsyfyiF8tD1v8'; // 替換為實際的跳轉URL
+            window.location.href = 'https://tassel.syd1.qualtrics.com/jfe/form/SV_9ZwsyfyiF8tD1v8'; // 替換為實際的跳轉網址
         }
     }, 1000);
 }
@@ -160,10 +154,9 @@ window.onload = function () {
     var avatarSrc = localStorage.getItem("avatarSrc");
     var userName = localStorage.getItem("userName");
   
-    // 如果信息存在，則更新頁面上的頭像和姓名
+    // 如果有資訊，則更新頁面上的頭像與姓名
     if (avatarSrc && userName) {
       document.querySelector(".ava_image").src = avatarSrc;
-      // 假設你有一個顯示用戶名的元素
       document.getElementById("user-name-display").textContent = userName;
     }
 };
@@ -175,39 +168,37 @@ document.querySelector('.material-symbols-outlined').addEventListener('click', f
     } else {
       popupBox.style.display = 'none';
     }
-  });
+});
+
 $(document).ready(function() {
-    // 显示遮罩层和第一个指引
+    // 顯示遮罩層與第一個指引
     $(".modal-overlay").show();
     $("#guideModal1").show();
   
-    // 当用户点击任一关闭按钮时
+    // 當使用者點選任一個關閉按鈕時
     $(".close-guide").click(function() {
-        var guideNumber = $(this).data("guide"); // 获取是哪一个指引的关闭按钮
-        $("#guideModal" + guideNumber).hide(); // 隐藏当前指引
+        var guideNumber = $(this).data("guide"); // 取得是第幾個指引
+        $("#guideModal" + guideNumber).hide(); // 隱藏目前指引
   
         if (guideNumber == 1) {
-            // 如果是第一个指引被关闭，则显示第二个指引
             $("#guideModal2").show();
         } else if (guideNumber == 2) {
-            // 如果是第二个指引被关闭，则显示第三个指引
             $("#guideModal3").show();
         } else {
-            // 如果是第三个指引被关闭，则隐藏遮罩层
+            // 關閉最後一個指引後，隱藏遮罩層並開始倒數
             $(".modal-overlay").hide();
-            // 在这里开始计时
-            const duration = 300, // 这里设置倒数计时的总秒数，示例中设置为3分钟
+            const duration = 300, // 倒數總秒數（這裡為 5 分鐘）
                 display = document.querySelector('#timer');
             startTimer(duration, display);
         }
     });
 
-    // 当用户点击右上角关闭图标时，关闭问题库视窗
+    // 點選右上角關閉圖示時關閉問題庫視窗
     $(".popup-close-icon").click(function() {
         $(this).closest(".popup-box").hide();
     });
 
-    // 关闭问题库
+    // 關閉問題庫
     $('.close-popup').click(function() {
         $(this).parent('.popup-box').hide();
     });
@@ -217,7 +208,7 @@ function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
     textArea.value = text;
 
-    // 避免在屏幕上显示textArea
+    // 避免顯示在畫面上
     textArea.style.position = "fixed";
     textArea.style.top = "0";
     textArea.style.left = "0";
@@ -235,33 +226,33 @@ function fallbackCopyTextToClipboard(text) {
 
     try {
         var successful = document.execCommand('copy');
-        var msg = successful ? '成功' : '失败';
-        console.log('Fallback: 复制的文本 ' + msg);
+        var msg = successful ? '成功' : '失敗';
+        console.log('備援：複製結果 ' + msg);
     } catch (err) {
-        console.error('Fallback: 无法复制文本', err);
+        console.error('備援：無法複製文字', err);
     }
 
     document.body.removeChild(textArea);
     alert('已複製問題');
 }
 
-
 $(document).on('click', '.question', function() {
-    const questionText = $(this).data('copy'); // 或者 $(this).text() 获取问题文本
+    const questionText = $(this).data('copy');
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(questionText).then(() => {
             alert('已複製問題');
         }).catch(err => {
-            console.error('复制失败，使用fallback方案', err);
+            console.error('複製失敗，使用備援方案', err);
             fallbackCopyTextToClipboard(questionText);
         });
     } else {
-        console.log('Clipboard API 不可用，使用fallback方案');
+        console.log('Clipboard API 不可用，使用備援方案');
         fallbackCopyTextToClipboard(questionText);
     }
 
-    // 关闭问题库
+    // 關閉問題庫
     $('.close-popup').click(function() {
         $(this).parent('.popup-box').hide();
     });
 });
+
